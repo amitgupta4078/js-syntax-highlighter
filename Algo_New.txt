@@ -1,0 +1,40 @@
+The parser functionality mainly depends on strings and quotes. The set of characters (which may contain normal char arrays, keywords, white spaces and special characters) may or may not appear in between quotes.
+
+if quotes:
+	if collecting strings:
+		if quotes not started before:
+			add green collected string
+		else:
+			add black collected string
+		stop storing strings
+		reset string collector
+	toggle quotes start status
+	add green closing quotes
+if not quotes:
+	if alphabetical character:
+		if already storing string:
+			store the letter
+		if not storing string already:
+			start storing the string
+			store the letter
+	if not alphabetical character:
+		if quotes are started:
+			if strings are being stored:
+				add green stored string
+				stop storing strings
+				reset string collector
+			add green current letter
+		if quotes are not started:
+			if strings are being stored:
+				add normal stored string
+				stop storing strings
+				reset string collector
+			add the character with appropriate class
+
+All characters in the input string have been parsed now. If the end character was alphabetical, it means we were storing it and now we need to attach that stored string.
+
+If storing string already:
+	if quotes started already:
+		add green stored string
+	if not started quotes already:
+		add black stored string
