@@ -9,20 +9,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	let stringCollector = ''
 	let isCollectingString = false
 	let areQuotesStarted = false
-	let list = ''
 
+	const tabSize = 4
+	const maxWidth = 100
 	const outputTab = document.getElementById('output-tab')
 	const inputArea = document.getElementById('input-area')
 
-	function appendString(string, appearsWithinQuotes) {
+	function appendString(appearsWithinQuotes) {
 		if (appearsWithinQuotes) {
-			finalOutput += `<span class="quoted-text">${string}</span>`
+			finalOutput += `<span class="quoted-text">${stringCollector}</span>`
 		} else {
 			// Check if collected string is a keyword
 			if (keywordRegex.test(stringCollector)) {
-				finalOutput += `<span class="keywords">${string}</span>`
+				finalOutput += `<span class="keywords">${stringCollector}</span>`
 			} else {
-				finalOutput += `<span class="alphabets">${string}</span>`
+				finalOutput += `<span class="alphabets">${stringCollector}</span>`
 			}
 		}
 	}
@@ -32,32 +33,38 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			letter = inputString[i]
 			if (letter === '"') {
 				if (isCollectingString) {
+					if (areQuotesStarted) {
+						appendString(true)
+						// finalOutput += `<span class="quoted-text">${stringCollector}</span>`
+					} else {
+						appendString(false)
+						finalOutput += `<span class="alphabets">${stringCollector}</span>`
+					}
 					isCollectingString = false
-					appendString(stringCollector, false)
 					stringCollector = ''
 				}
-				if (!list.length) {
-					areQuotesStarted = true
-					list += '"'
-				} else {
-					list += '"'
-					appendString(list, true)
-					areQuotesStarted = false
-					list = ''
-				}
+				areQuotesStarted = !(areQuotesStarted)
+				finalOutput += `<span class="quoted-text">"</span>`
 			} else {
-				if (areQuotesStarted) {
-					if ((letter !== '\n') && (letter !== '\r')) {
-						list += letter
-					}
-				} else {
-					if(alphaCharRegex.test(letter)) {
-						stringCollector += letter
+				if(alphaCharRegex.test(letter)) {
+					if (!isCollectingString) {
 						isCollectingString = true
+					}
+					stringCollector += letter
+				} else {
+					if (areQuotesStarted) {
+						if (isCollectingString) {
+							appendString(true)
+							// finalOutput += `<span class="quoted-text">${stringCollector}</span>`
+							isCollectingString = false
+							stringCollector = ''
+						}
+						finalOutput += `<span class="quoted-text">${letter}</span>`
 					} else {
 						if (isCollectingString) {
+							appendString(false)
+							// finalOutput += `<span class="alphabets">${stringCollector}</span>`
 							isCollectingString = false
-							appendString(stringCollector, false)
 							stringCollector = ''
 						}
 						if(whitespaceRegex.test(letter)){
@@ -76,26 +83,27 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						}
 					}
 				}
-			}			
+			}
 		}
 
-		if (areQuotesStarted) {
-			appendString(list, true)
-		} else {
-			if (isCollectingString) {
-				appendString(stringCollector, false)
+		if (isCollectingString) {
+			if (areQuotesStarted) {
+				appendString(true)
+				// finalOutput += `<span class="quoted-text">${stringCollector}</span>`
+			} else {
+				appendString(false)
+				// finalOutput += `<span class="alphabets">${stringCollector}</span>`
 			}
 		}
 
 		outputTab.innerHTML = ""
 		outputTab.innerHTML = finalOutput
-		// Reset all flags and variables
+		// Reset all flags
 		letter = ''
 		finalOutput = ''
 		stringCollector = ''
 		isCollectingString = false
 		areQuotesStarted = false
-		list = ''
 	}
 
 	inputArea.addEventListener('input', () => {
