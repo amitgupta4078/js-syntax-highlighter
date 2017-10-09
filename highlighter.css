@@ -1,0 +1,12 @@
+.alphabets {
+ color: black;
+}
+.punctuation {
+  color: red;
+}
+.quoted-text {
+  color: green;
+}
+.keywords {
+  color: orange;
+}
