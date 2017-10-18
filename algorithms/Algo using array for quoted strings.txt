@@ -1,0 +1,51 @@
+Get a character from user
+
+If quotes:
+	if collectingString:
+		Set collectingString = false
+		If keyword:
+			add collected string to finalOutput as orange colour
+		if not keyword:
+			add collected string to finalOutput as black colour
+		Set string collector empty
+	check length of list:
+		if no length:
+			It is a starting quote. Store a quote in the list.
+			Set quoteStarted = true
+		if length:
+			It is an ending quote. Add the quote in the list.
+			Take the entire list and add that to finalOutput in green colour.
+			Set quoteStarted = false
+			Set list = []
+If no quotes:
+	if quoteStarted:
+		if new line character:
+			do nothing
+		if not new line:
+			add the character to the list
+	if not quoteStarted:
+		if alphanumeric:
+			add the character to string collector.
+			Set collectingString = true
+		if not alphanumeric:
+			if collectingString:
+				Set collectingString = false
+				If keyword:
+					add collected string to finalOutput as orange colour
+				if not keyword:
+					add collected string to finalOutput as black colour
+				Set string collector empty
+			if punctuation symbol:
+				add character in red to finalOutput
+			if whitespace:
+				add character to finalOutput
+			if new line:
+				add character to finalOutput
+
+If last letter is character, we need to check if quoteStarted
+
+if quoteStarted:
+	Take the entire list and add that to finalOutput in green colour.
+if not quoteStarted:
+	if collectingString:
+		append collected string to finalOutput

@@ -3,18 +3,6 @@
 <head>
 	<title></title>
 	<style type="text/css">
-		.alphabets {
-			color: black;
-		}
-		.punctuation {
-			color: red;
-		}
-		.quoted-text {
-			color: green;
-		}
-		.keywords {
-			color: orange;
-		}
 		#input-area {
 			height: 200px;
 		    width: 500px;
@@ -29,12 +17,14 @@
 		    font-size: large;
 		}
 	</style>
-	<script type="text/javascript" src="syntax.js"></script>
+	<link rel="stylesheet" type="text/css" href="./highlighter.css">
+	
 </head>
 <body>
-
 	<textarea id="input-area"></textarea>
-
 	<div id="output-tab"></div>
+
+	<script type="text/javascript" src="script.js"></script>
+	<script type="text/javascript" src="highlighter.js"></script>
 </body>
 </html>
